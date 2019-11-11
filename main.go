@@ -15,7 +15,16 @@ type TmplData struct {
 var allowedAPIProtocols = []string{"rest", "websocket"}
 var allowedRestAPIEndpoints = []string{"regional", "edge", "private"}
 
+func createDir(path string) error {
+	err := os.MkdirAll(path, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func main() {
+
 	apiTmpl := TmplData{
 		ApiProtocol:        "rest",
 		ApiEndpoints:       "regional",
@@ -29,6 +38,11 @@ func main() {
 		panic(err)
 	}
 	err = t.Execute(file, apiTmpl)
+	if err != nil {
+		panic(err)
+	}
+
+	err = createDir("src/helloworld/app")
 	if err != nil {
 		panic(err)
 	}
