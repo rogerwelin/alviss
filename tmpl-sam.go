@@ -74,7 +74,7 @@ Resources:
   # API GW Conf
   ########################
 
-  AnalyticsApi:
+  AWSApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref Environment
@@ -126,7 +126,7 @@ Resources:
   ApiAccessLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub "/aws/apigateway/AccessLog-${AnalyticsApi}"
+      LogGroupName: !Sub "/aws/apigateway/AccessLog-${AWSApi}"
       RetentionInDays: 365
 
 
@@ -134,10 +134,10 @@ Resources:
   #  Functions Goes Here
   ########################
 
-  RecommendationsFunction:
+  HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/recommendations/app/
+      CodeUri: src/{{ .LambdaFunctionName }}/app/
       Handler: recommendations.lambda_handler
       Runtime: python3.7
       MemorySize: 512
@@ -146,21 +146,21 @@ Resources:
       Policies:
         - AWSLambdaExecute
       Layers:
-        - !Ref RecommendationsLayer
+        - !Ref HelloWorldLayer
       Events:
         AnyApi:
           Type: Api
           Properties:
-            RestApiId: !Ref AnalyticsApi
-            Path: '/recommendations/{userId}'
+            RestApiId: !Ref AWSApi
+            Path: '/{{ .LambdaFunctionName }}/{userId}'
             Method: GET
 
-  RecommendationsLayer:
+  HelloWorldLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
       LayerName: recommendations-deps
-      Description: Dependencies for RecommendationsFunction
-      ContentUri: src/recommendations/dependencies/
+      Description: Dependencies for HelloWorldFunction
+      ContentUri: src/{{ .LambdaFunctionName }}/dependencies/
       CompatibleRuntimes:
         - python3.7
       RetentionPolicy: Retain
@@ -168,5 +168,5 @@ Resources:
 Outputs:
   ApiURL:
     Description: {{ .ApiProjectName }}
-    Value: !Sub 'https://${AnalyticsApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/'
+    Value: !Sub 'https://${AWSApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/'
 `
