@@ -23,6 +23,15 @@ func createDir(path string) error {
 	return nil
 }
 
+func contains(slice []string, contains string) bool {
+	for _, item := range slice {
+		if contains == item {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 
 	apiTmpl := TmplData{
