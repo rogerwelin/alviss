@@ -24,7 +24,11 @@ func main() {
 	}
 
 	t := template.Must(template.New("apigw").Parse(apiGWConf))
-	err := t.Execute(os.Stdout, apiTmpl)
+	file, err := os.Create("apigw.yml")
+	if err != err {
+		panic(err)
+	}
+	err = t.Execute(file, apiTmpl)
 	if err != nil {
 		panic(err)
 	}
