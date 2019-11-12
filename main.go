@@ -15,6 +15,14 @@ type TmplData struct {
 var allowedAPIProtocols = []string{"rest", "websocket"}
 var allowedRestAPIEndpoints = []string{"regional", "edge", "private"}
 
+// Usage to-do
+var languages = map[string][]string{
+	"node":   []string{"index.js", "package.json"},
+	"java":   []string{"App.java", "pom.xml"},
+	"python": []string{"app.py", "requirements.txt"},
+	"go":     []string{"main.go"},
+}
+
 func createDir(path string) error {
 	err := os.MkdirAll(path, os.ModePerm)
 	if err != nil {
