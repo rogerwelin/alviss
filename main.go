@@ -5,6 +5,12 @@ import (
 	"text/template"
 )
 
+var (
+	defaultAppPath          = "src/helloworld/app"
+	allowedAPIProtocols     = []string{"rest", "websocket"}
+	allowedRestAPIEndpoints = []string{"regional", "edge", "private"}
+)
+
 type TmplData struct {
 	ApiProtocol        string
 	ApiEndpoints       string
@@ -12,15 +18,51 @@ type TmplData struct {
 	ApiProjectName     string
 }
 
-var allowedAPIProtocols = []string{"rest", "websocket"}
-var allowedRestAPIEndpoints = []string{"regional", "edge", "private"}
+type LanguageMapper struct {
+	Files       []string
+	TmplAppVar  string
+	TmplDepsVar string
+	AppPath     string
+	DepsPath    string
+}
 
 // Usage to-do
-var languages = map[string][]string{
-	"node":   []string{"index.js", "package.json"},
-	"java":   []string{"App.java", "pom.xml"},
-	"python": []string{"app.py", "requirements.txt"},
-	"go":     []string{"main.go"},
+var languages = map[string]LanguageMapper{
+	"node": LanguageMapper{
+		Files:       []string{"index.js", "package.json"},
+		TmplAppVar:  "nodeFunction",
+		TmplDepsVar: "packageJson",
+		AppPath:     defaultAppPath,
+		DepsPath:    defaultAppPath,
+	},
+	"java": LanguageMapper{
+		Files:       []string{"App.java", "pom.xml"},
+		TmplAppVar:  "",
+		TmplDepsVar: "",
+		AppPath:     defaultAppPath + "/com/api",
+		DepsPath:    defaultAppPath,
+	},
+	"python": LanguageMapper{
+		Files:       []string{"app.py", "requirements.txt"},
+		TmplAppVar:  "",
+		TmplDepsVar: "",
+		AppPath:     defaultAppPath,
+		DepsPath:    defaultAppPath,
+	},
+	"ruby": LanguageMapper{
+		Files:       []string{"app.rb", "Gemfile"},
+		TmplAppVar:  "",
+		TmplDepsVar: "",
+		AppPath:     defaultAppPath,
+		DepsPath:    defaultAppPath,
+	},
+	"go": LanguageMapper{
+		Files:       []string{"main.go", "go.mod"},
+		TmplAppVar:  "",
+		TmplDepsVar: "",
+		AppPath:     defaultAppPath,
+		DepsPath:    defaultAppPath,
+	},
 }
 
 func createDir(path string) error {

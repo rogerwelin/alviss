@@ -1,6 +1,8 @@
 package main
 
-var nodeFunction = `
+// node.js
+
+const nodeFunction = `
 'use strict'
 const  winston = require('winston')
 
@@ -26,7 +28,7 @@ exports.handler = function(event, context) {
 };
 `
 
-var packageJson = `
+const packageJson = `
 {
   "name": "hello",
   "version": "1.0.0",
@@ -45,4 +47,18 @@ var packageJson = `
     "lambda-local": "^1.6.3"
   }
 }
+`
+
+// python
+const pythonFunction = `
+import json
+
+def lambda_handler(event, context):
+
+    dict = { "msg" : "hello world" }
+    
+    return {
+        'statusCode': 200,
+        'body': json.dumps(dict)
+    }
 `
