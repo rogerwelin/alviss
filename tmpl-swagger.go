@@ -3,7 +3,7 @@ package main
 const swagger = `
 ---
 openapi: "3.0.1"
-{{ if and (eq .apiEndpoints "private") }}
+{{ if and (eq .ApiEndpoints "private") }}
 x-amazon-apigateway-policy:
   Version: '2012-10-17'
   Statement:
@@ -20,7 +20,7 @@ x-amazon-apigateway-policy:
 {{ end }}
 
 info:
-  title: {{ .apiProjectName }}
+  title: {{ .ApiProjectName }}
   description: your awesome description here
   version: "v1.0"
 
@@ -31,7 +31,7 @@ servers:
     description: Production environment URL
 
 paths:
-  /v1/{{ .lambdaFunctionName }}/{userId}:
+  /v1/{{ .LambdaFunctionName }}/{userId}:
     get:
       summary: hello world endpoint
       description: outputs hello world
@@ -47,9 +47,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 items:
-                  $ref: "#/components/schemas/ArticleObj"
+                  $ref: "#/components/schemas/HelloWorldObj"
         500:
           description: "Internal Server Error"
           content: {}
@@ -61,19 +61,8 @@ paths:
         type: aws_proxy
 components:
   schemas:
-    ArticleObj:
+    HelloWorldObj:
       properties:
-        rowValues:
-          type: "array"
-          items:
-            type: "object"
-            properties:
-              modelId:
-                type: "number"
-              Article_Id:
-                type: "string"
-              MU_UOM_Cd:
-                type: "string"
-              rank:
-                type: "number"
+        msg: 
+          type: "string"
 `

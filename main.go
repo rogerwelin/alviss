@@ -32,21 +32,44 @@ func contains(slice []string, contains string) bool {
 	return false
 }
 
+func (tmpl *TmplData) createFileFromTemplate(tmplVar string, path string, outName string) error {
+	t := template.Must(template.New("").Parse(tmplVar))
+	var file *os.File
+	var err error
+
+	if path != "" {
+		file, err = os.Create(path + "/" + outName)
+		if err != nil {
+			return err
+		}
+	} else {
+		file, err = os.Create(outName)
+		if err != nil {
+			return err
+		}
+	}
+	err = t.Execute(file, tmpl)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func main() {
 
-	apiTmpl := TmplData{
+	apiTmpl := &TmplData{
 		ApiProtocol:        "rest",
 		ApiEndpoints:       "regional",
 		LambdaFunctionName: "helloworld",
 		ApiProjectName:     "Hello-World-API",
 	}
 
-	t := template.Must(template.New("apigw").Parse(apiGWConf))
-	file, err := os.Create("apigw.yml")
-	if err != err {
+	err := apiTmpl.createFileFromTemplate(apiGWConf, "", "apigw.yml")
+	if err != nil {
 		panic(err)
 	}
-	err = t.Execute(file, apiTmpl)
+
+	err = apiTmpl.createFileFromTemplate(swagger, "", "swagger-api.yml")
 	if err != nil {
 		panic(err)
 	}
@@ -55,4 +78,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	err = apiTmpl.createFileFromTemplate(nodeFunction, "src/helloworld/app", "index.js")
+	if err != nil {
+		panic(err)
+	}
+
+	err = apiTmpl.createFileFromTemplate(packageJson, "src/helloworld/app", "package.json")
+	if err != nil {
+		panic(err)
+	}
+
 }
