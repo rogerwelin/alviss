@@ -19,7 +19,8 @@ type TmplData struct {
 }
 
 type LanguageMapper struct {
-	Files       []string
+	AppFile     string
+	DepsFile    string
 	TmplAppVar  string
 	TmplDepsVar string
 	AppPath     string
@@ -29,35 +30,40 @@ type LanguageMapper struct {
 // Usage to-do
 var languages = map[string]LanguageMapper{
 	"node": LanguageMapper{
-		Files:       []string{"index.js", "package.json"},
-		TmplAppVar:  "nodeFunction",
-		TmplDepsVar: "packageJson",
+		AppFile:     "index.js",
+		DepsFile:    "package.json",
+		TmplAppVar:  nodeFunction,
+		TmplDepsVar: packageJson,
 		AppPath:     defaultAppPath,
 		DepsPath:    defaultAppPath,
 	},
 	"java": LanguageMapper{
-		Files:       []string{"App.java", "pom.xml"},
+		AppFile:     "App.java",
+		DepsFile:    "pom.xml",
 		TmplAppVar:  "",
 		TmplDepsVar: "",
 		AppPath:     defaultAppPath + "/com/api",
 		DepsPath:    defaultAppPath,
 	},
 	"python": LanguageMapper{
-		Files:       []string{"app.py", "requirements.txt"},
+		AppFile:     "app.py",
+		DepsFile:    "requirements.txt",
 		TmplAppVar:  "",
 		TmplDepsVar: "",
 		AppPath:     defaultAppPath,
 		DepsPath:    defaultAppPath,
 	},
 	"ruby": LanguageMapper{
-		Files:       []string{"app.rb", "Gemfile"},
+		AppFile:     "app.rb",
+		DepsFile:    "Gemfile",
 		TmplAppVar:  "",
 		TmplDepsVar: "",
 		AppPath:     defaultAppPath,
 		DepsPath:    defaultAppPath,
 	},
 	"go": LanguageMapper{
-		Files:       []string{"main.go", "go.mod"},
+		AppFile:     "main.go",
+		DepsFile:    "go.mod",
 		TmplAppVar:  "",
 		TmplDepsVar: "",
 		AppPath:     defaultAppPath,
@@ -80,6 +86,25 @@ func contains(slice []string, contains string) bool {
 		}
 	}
 	return false
+}
+
+func createFileFromStruct(languageSpec LanguageMapper) error {
+	// not pretty, fix later
+	apa := &TmplData{}
+
+	err := createDir(languageSpec.AppPath)
+	if err != nil {
+		return err
+	}
+	err = apa.createFileFromTemplate(languageSpec.TmplAppVar, languageSpec.AppPath, languageSpec.AppFile)
+	if err != nil {
+		return err
+	}
+	err = apa.createFileFromTemplate(languageSpec.TmplDepsVar, languageSpec.DepsPath, languageSpec.DepsFile)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (tmpl *TmplData) createFileFromTemplate(tmplVar string, path string, outName string) error {
@@ -124,17 +149,7 @@ func main() {
 		panic(err)
 	}
 
-	err = createDir("src/helloworld/app")
-	if err != nil {
-		panic(err)
-	}
-
-	err = apiTmpl.createFileFromTemplate(nodeFunction, "src/helloworld/app", "index.js")
-	if err != nil {
-		panic(err)
-	}
-
-	err = apiTmpl.createFileFromTemplate(packageJson, "src/helloworld/app", "package.json")
+	err = createFileFromStruct(languages["node"])
 	if err != nil {
 		panic(err)
 	}
