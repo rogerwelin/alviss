@@ -16,6 +16,7 @@ type TmplData struct {
 	ApiEndpoints       string
 	LambdaFunctionName string
 	ApiProjectName     string
+	Language           string
 }
 
 type LanguageMapper struct {
@@ -27,7 +28,6 @@ type LanguageMapper struct {
 	DepsPath    string
 }
 
-// Usage to-do
 var languages = map[string]LanguageMapper{
 	"node": LanguageMapper{
 		AppFile:     "index.js",
@@ -137,6 +137,7 @@ func main() {
 		ApiEndpoints:       "regional",
 		LambdaFunctionName: "helloworld",
 		ApiProjectName:     "Hello-World-API",
+		Language:           "node",
 	}
 
 	err := apiTmpl.createFileFromTemplate(apiGWConf, "", "apigw.yml")
@@ -149,7 +150,7 @@ func main() {
 		panic(err)
 	}
 
-	err = createFileFromStruct(languages["node"])
+	err = createFileFromStruct(languages[apiTmpl.Language])
 	if err != nil {
 		panic(err)
 	}
