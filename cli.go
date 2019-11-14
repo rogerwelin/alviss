@@ -32,10 +32,6 @@ func (e EnumValue) String() string {
 	return e.selected
 }
 
-var (
-	apiProjectName string
-)
-
 func validateRun(c *cli.Context) error {
 
 	apiTmpl := &TmplData{
@@ -64,10 +60,9 @@ func runCLI(args []string) {
 			Usage: "Generates a new api project",
 			Flags: []cli.Flag{
 				cli.StringFlag{
-					Name:        "p, project-name",
-					Usage:       "name of your API project",
-					Required:    true,
-					Destination: &apiProjectName,
+					Name:     "p, project-name",
+					Usage:    "name of your API project",
+					Required: true,
 				},
 				cli.GenericFlag{
 					Name:  "t, api-type",
