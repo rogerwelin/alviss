@@ -6,9 +6,7 @@ import (
 )
 
 var (
-	defaultAppPath          = "/src/helloworld/app"
-	allowedAPIProtocols     = []string{"rest", "websocket"}
-	allowedRestAPIEndpoints = []string{"regional", "edge", "private"}
+	defaultAppPath = "/src/helloworld/app"
 )
 
 type TmplData struct {
