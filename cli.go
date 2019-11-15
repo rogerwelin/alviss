@@ -42,7 +42,10 @@ func validateRun(c *cli.Context) error {
 		Language:           c.String("language"),
 	}
 
-	fmt.Println(apiTmpl)
+	err := apiTmpl.bootstrapAPI()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

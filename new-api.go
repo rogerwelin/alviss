@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	defaultAppPath          = "src/helloworld/app"
+	defaultAppPath          = "/src/helloworld/app"
 	allowedAPIProtocols     = []string{"rest", "websocket"}
 	allowedRestAPIEndpoints = []string{"regional", "edge", "private"}
 )
@@ -28,47 +28,53 @@ type LanguageMapper struct {
 	DepsPath    string
 }
 
-var languages = map[string]LanguageMapper{
-	"node": LanguageMapper{
-		AppFile:     "index.js",
-		DepsFile:    "package.json",
-		TmplAppVar:  nodeFunction,
-		TmplDepsVar: packageJson,
-		AppPath:     defaultAppPath,
-		DepsPath:    defaultAppPath,
-	},
-	"java": LanguageMapper{
-		AppFile:     "App.java",
-		DepsFile:    "pom.xml",
-		TmplAppVar:  "",
-		TmplDepsVar: "",
-		AppPath:     defaultAppPath + "/com/api",
-		DepsPath:    defaultAppPath,
-	},
-	"python": LanguageMapper{
-		AppFile:     "app.py",
-		DepsFile:    "requirements.txt",
-		TmplAppVar:  "",
-		TmplDepsVar: "",
-		AppPath:     defaultAppPath,
-		DepsPath:    defaultAppPath,
-	},
-	"ruby": LanguageMapper{
-		AppFile:     "app.rb",
-		DepsFile:    "Gemfile",
-		TmplAppVar:  "",
-		TmplDepsVar: "",
-		AppPath:     defaultAppPath,
-		DepsPath:    defaultAppPath,
-	},
-	"go": LanguageMapper{
-		AppFile:     "main.go",
-		DepsFile:    "go.mod",
-		TmplAppVar:  "",
-		TmplDepsVar: "",
-		AppPath:     defaultAppPath,
-		DepsPath:    defaultAppPath,
-	},
+func initMap(projectName string) map[string]LanguageMapper {
+
+	appPath := projectName + defaultAppPath
+
+	var languages = map[string]LanguageMapper{
+		"node": LanguageMapper{
+			AppFile:     "index.js",
+			DepsFile:    "package.json",
+			TmplAppVar:  nodeFunction,
+			TmplDepsVar: packageJson,
+			AppPath:     appPath,
+			DepsPath:    appPath,
+		},
+		"java": LanguageMapper{
+			AppFile:     "App.java",
+			DepsFile:    "pom.xml",
+			TmplAppVar:  "",
+			TmplDepsVar: "",
+			AppPath:     appPath + "/com/api",
+			DepsPath:    appPath,
+		},
+		"python": LanguageMapper{
+			AppFile:     "app.py",
+			DepsFile:    "requirements.txt",
+			TmplAppVar:  "",
+			TmplDepsVar: "",
+			AppPath:     appPath,
+			DepsPath:    appPath,
+		},
+		"ruby": LanguageMapper{
+			AppFile:     "app.rb",
+			DepsFile:    "Gemfile",
+			TmplAppVar:  "",
+			TmplDepsVar: "",
+			AppPath:     appPath,
+			DepsPath:    appPath,
+		},
+		"go": LanguageMapper{
+			AppFile:     "main.go",
+			DepsFile:    "go.mod",
+			TmplAppVar:  "",
+			TmplDepsVar: "",
+			AppPath:     appPath,
+			DepsPath:    appPath,
+		},
+	}
+	return languages
 }
 
 func createDir(path string) error {
@@ -112,18 +118,38 @@ func (tmpl *TmplData) createFileFromTemplate(tmplVar string, path string, outNam
 	var file *os.File
 	var err error
 
-	if path != "" {
-		file, err = os.Create(path + "/" + outName)
-		if err != nil {
-			return err
-		}
-	} else {
-		file, err = os.Create(outName)
-		if err != nil {
-			return err
-		}
+	file, err = os.Create(path + "/" + outName)
+	if err != nil {
+		return err
 	}
+
 	err = t.Execute(file, tmpl)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (tmpl *TmplData) bootstrapAPI() error {
+
+	// create top dir
+	createDir(tmpl.ApiProjectName)
+
+	// create apigw sam/cf
+	err := tmpl.createFileFromTemplate(apiGWConf, tmpl.ApiProjectName, "apigw.yml")
+	if err != nil {
+		panic(err)
+	}
+
+	// create swagger file
+	err = tmpl.createFileFromTemplate(swagger, tmpl.ApiProjectName, "swagger-api.yml")
+	if err != nil {
+		return err
+	}
+
+	languageMap := initMap(tmpl.ApiProjectName)
+
+	err = createFileFromStruct(languageMap[tmpl.Language])
 	if err != nil {
 		return err
 	}
