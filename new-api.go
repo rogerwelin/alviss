@@ -50,24 +50,24 @@ func initMap(projectName string) map[string]LanguageMapper {
 		"python": LanguageMapper{
 			AppFile:     "app.py",
 			DepsFile:    "requirements.txt",
-			TmplAppVar:  "",
-			TmplDepsVar: "",
+			TmplAppVar:  pythonFunction,
+			TmplDepsVar: requirementsFile,
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
 		"ruby": LanguageMapper{
 			AppFile:     "app.rb",
 			DepsFile:    "Gemfile",
-			TmplAppVar:  "",
-			TmplDepsVar: "",
+			TmplAppVar:  rubyFunction,
+			TmplDepsVar: gemFile,
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
 		"go": LanguageMapper{
 			AppFile:     "main.go",
 			DepsFile:    "go.mod",
-			TmplAppVar:  "",
-			TmplDepsVar: "",
+			TmplAppVar:  goFunction,
+			TmplDepsVar: goMod,
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
@@ -153,31 +153,3 @@ func (tmpl *TmplData) bootstrapAPI() error {
 	}
 	return nil
 }
-
-/*func main() {
-
-	apiTmpl := &TmplData{
-		ApiProtocol:        "rest",
-		ApiEndpoints:       "regional",
-		LambdaFunctionName: "helloworld",
-		ApiProjectName:     "Hello-World-API",
-		Language:           "node",
-	}
-
-	err := apiTmpl.createFileFromTemplate(apiGWConf, "", "apigw.yml")
-	if err != nil {
-		panic(err)
-	}
-
-	err = apiTmpl.createFileFromTemplate(swagger, "", "swagger-api.yml")
-	if err != nil {
-		panic(err)
-	}
-
-	err = createFileFromStruct(languages[apiTmpl.Language])
-	if err != nil {
-		panic(err)
-	}
-
-}
-*/
