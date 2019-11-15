@@ -3,6 +3,9 @@ package main
 import (
 	"os"
 	"text/template"
+	"time"
+
+	"github.com/fatih/color"
 )
 
 var (
@@ -129,17 +132,25 @@ func (tmpl *TmplData) createFileFromTemplate(tmplVar string, path string, outNam
 }
 
 func (tmpl *TmplData) bootstrapAPI() error {
+	col := color.New(color.FgCyan).Add(color.Underline)
+	mg := color.New(color.FgGreen)
+	col.Printf("\n\U0001f41d  Bootstrapping API GW project: %s with Lambda\n\n", tmpl.ApiProjectName)
+	time.Sleep(350 * time.Millisecond)
 
 	// create top dir
 	createDir(tmpl.ApiProjectName)
 
 	// create apigw sam/cf
+	mg.Println("\u2705  Writing out CF/SAM config\n")
+	time.Sleep(350 * time.Millisecond)
 	err := tmpl.createFileFromTemplate(apiGWConf, tmpl.ApiProjectName, "apigw.yml")
 	if err != nil {
 		panic(err)
 	}
 
 	// create swagger file
+	mg.Println("\u2705  Writing out Swagger config\n")
+	time.Sleep(350 * time.Millisecond)
 	err = tmpl.createFileFromTemplate(swagger, tmpl.ApiProjectName, "swagger-api.yml")
 	if err != nil {
 		return err
@@ -147,6 +158,7 @@ func (tmpl *TmplData) bootstrapAPI() error {
 
 	languageMap := initMap(tmpl.ApiProjectName)
 
+	mg.Printf("\u2705  Writing out %s lambda to: %s\n\n", tmpl.Language, tmpl.ApiProjectName+defaultAppPath)
 	err = createFileFromStruct(languageMap[tmpl.Language])
 	if err != nil {
 		return err
