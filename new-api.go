@@ -135,7 +135,8 @@ func (tmpl *TmplData) createFileFromTemplate(tmplVar string, path string, outNam
 func (tmpl *TmplData) bootstrapAPI() error {
 	col := color.New(color.FgCyan).Add(color.Underline)
 	mg := color.New(color.FgGreen)
-	col.Printf("\n\U0001f3c1  Bootstrapping API GW project: %s with Lambda\n\n", tmpl.ApiProjectName)
+	fmt.Printf("\n\U0001f3c1  ")
+	col.Printf("Bootstrapping API GW project: %s with Lambda\n\n", tmpl.ApiProjectName)
 	time.Sleep(350 * time.Millisecond)
 
 	// create top dir
