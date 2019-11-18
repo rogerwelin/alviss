@@ -175,7 +175,7 @@ func (tmpl *TmplData) bootstrapAPI() error {
 	}
 
 	green := color.New(color.FgGreen).SprintFunc()
-	fmt.Printf("Success! Created API GW project at %s\nInside that directory, you can run several commands:\n\n\t%s\n\t\tcreates a zip of your code and dependencies and uploads it to S3\n\t%s\n\t\tdeploys the specified CloudFormation/SAM template by creating and then executing a change set\n\nHowever I recommend taking a look at the README file first\n\n", green(tmpl.ApiProjectName+"/"), green("sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket Your-S3-bucket"), green("sam deploy --template-file ./out.yaml --stack-name your-api-project --capabilities CAPABILITY_IAM"))
+	fmt.Printf("Success! Created API GW project at %s\nInside that directory, you can run several commands:\n\n\t%s\n\t\tcreates a zip of your code and dependencies and uploads it to S3\n\t%s\n\t\tdeploys the specified CloudFormation/SAM template by creating and then executing a change set\n\nHowever I recommend taking a look at the README file first\n\n", green(tmpl.ApiProjectName+"/"), green("sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket Your-S3-bucket"), green("aws cloudformation deploy --template-file ./out.yaml --stack-name my-api-stack --capabilities CAPABILITY_IAM"))
 
 	return nil
 }

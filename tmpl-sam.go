@@ -16,12 +16,14 @@ Parameters:
   Environment:
     Description: name of the environment
     Type: String
+    Default: test
     AllowedValues: [test, prod]
 {{ else }}
 Parameters:
   Environment:
     Description: name of the environment
     Type: String
+    Default: test
     AllowedValues: [test, prod]
 {{ end}}
 
@@ -149,25 +151,14 @@ Resources:
       Tracing: Active
       Policies:
         - AWSLambdaExecute
-      Layers:
-        - !Ref HelloWorldLayer
       Events:
         AnyApi:
           Type: Api
           Properties:
             RestApiId: !Ref AWSApi
-            Path: '/{{ .LambdaFunctionName }}/{userId}'
+            Path: '/{{ .LambdaFunctionName }}'
             Method: GET
 
-  HelloWorldLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      LayerName: recommendations-deps
-      Description: Dependencies for HelloWorldFunction
-      ContentUri: src/{{ .LambdaFunctionName }}/dependencies/
-      CompatibleRuntimes:
-        - python3.7
-      RetentionPolicy: Retain
 
 Outputs:
   ApiURL:

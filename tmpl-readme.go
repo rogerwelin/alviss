@@ -25,7 +25,7 @@ $ sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bu
 
 ### Deploy the API
 ` + "```" + `bash
-$ sam deploy --template-file ./out.yaml --stack-name your-api-project --capabilities CAPABILITY_IAM 
+$ aws cloudformation deploy --template-file ./out.yaml --stack-name your-api-project --capabilities CAPABILITY_IAM 
 ` + "```" + `
 
 Go to the AWS console > Cloudformation. Make sure the Cloudformations stack finishes. Take a look at the output to get the URL of your newly created API project. Either curl the address at the /hello endpoint or run the endpoint directly in the API Gateway console.

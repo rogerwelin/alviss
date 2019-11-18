@@ -31,7 +31,7 @@ servers:
     description: Production environment URL
 
 paths:
-  /v1/{{ .LambdaFunctionName }}:
+  /{{ .LambdaFunctionName }}:
     get:
       summary: hello world endpoint
       description: outputs hello world
