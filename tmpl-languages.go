@@ -1,7 +1,6 @@
 package main
 
 // node.js
-
 const nodeFunction = `
 'use strict'
 const  winston = require('winston')
