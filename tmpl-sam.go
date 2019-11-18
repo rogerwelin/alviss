@@ -138,8 +138,12 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: src/{{ .LambdaFunctionName }}/app/
-      Handler: recommendations.lambda_handler
-      Runtime: python3.7
+      {{ if and (eq .Language "python")}}Handler: app.handler
+      Runtime: python3.7{{ end }}{{ if and (eq .Language "ruby")}}Handler: app.handler
+      Runtime: ruby2.5{{ end }}{{ if and (eq .Language "node")}}Handler: index.js
+      Runtime: nodejs10.x{{ end }}{{ if and (eq .Language "go")}}Handler: helloworld
+      Runtime: go1.x{{ end }}{{ if and (eq .Language "java")}}Handler: com.api.HelloWorld
+      Runtime: java8{{ end }}
       MemorySize: 512
       Timeout: 5
       Tracing: Active

@@ -31,16 +31,10 @@ servers:
     description: Production environment URL
 
 paths:
-  /v1/{{ .LambdaFunctionName }}/{userId}:
+  /v1/{{ .LambdaFunctionName }}:
     get:
       summary: hello world endpoint
       description: outputs hello world
-      parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
-          required: true
       responses:
         200:
           description: "OK"

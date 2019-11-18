@@ -85,7 +85,7 @@ func runCLI(args []string) {
 				},
 				cli.GenericFlag{
 					Name:  "l, language",
-					Usage: "which language to be used (go, java, node, python, ruby)",
+					Usage: "which language for lambda to be used (go, java, node, python, ruby)",
 					Value: &EnumValue{
 						Enum:    []string{"go", "java", "node", "python", "ruby"},
 						Default: "node",

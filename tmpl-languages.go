@@ -52,7 +52,7 @@ const packageJson = `
 const pythonFunction = `
 import json
 
-def lambda_handler(event, context):
+def handler(event, context):
 
     dict = { "msg" : "hello world" }
     
@@ -94,7 +94,7 @@ type helloWorld struct {
 	Msg string` + "`" + `json:"msg"` + "`" + `
 }
 
-func Handler(ctx context.Context) (Response, error) {
+func handler(ctx context.Context) (Response, error) {
 
 	msg := helloWorld{Msg: "hwllo world"}
 	resp, err := json.Marshal(msg)
@@ -114,7 +114,7 @@ func Handler(ctx context.Context) (Response, error) {
 }
 
 func main() {
-	lambda.Start(Handler)
+	lambda.Start(handler)
 }  
 `
 
