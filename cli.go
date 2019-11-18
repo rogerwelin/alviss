@@ -57,6 +57,12 @@ func runCLI(args []string) {
 	app.UsageText = "api-scaffolder [command] [command options] [arguments...]"
 	app.EnableBashCompletion = true
 	app.Usage = ""
+	app.Authors = []cli.Author{
+		cli.Author{
+			Name: "Roger Welin",
+		},
+	}
+
 	app.Commands = []cli.Command{
 		{
 			Name:  "new-api",
