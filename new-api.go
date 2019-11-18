@@ -141,7 +141,7 @@ func (tmpl *TmplData) bootstrapAPI() error {
 	createDir(tmpl.ApiProjectName)
 
 	// create apigw sam/cf
-	mg.Println("\u2705  Writing out CF/SAM config\n")
+	mg.Printf("\u2705  Writing out CF/SAM config\n")
 	time.Sleep(350 * time.Millisecond)
 	err := tmpl.createFileFromTemplate(apiGWConf, tmpl.ApiProjectName, "apigw.yml")
 	if err != nil {
@@ -149,7 +149,7 @@ func (tmpl *TmplData) bootstrapAPI() error {
 	}
 
 	// create swagger file
-	mg.Println("\u2705  Writing out Swagger config\n")
+	mg.Printf("\u2705  Writing out Swagger config\n")
 	time.Sleep(350 * time.Millisecond)
 	err = tmpl.createFileFromTemplate(swagger, tmpl.ApiProjectName, "swagger-api.yml")
 	if err != nil {
