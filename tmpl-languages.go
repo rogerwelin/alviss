@@ -96,7 +96,7 @@ type helloWorld struct {
 
 func handler(ctx context.Context) (Response, error) {
 
-	msg := helloWorld{Msg: "hwllo world"}
+	msg := helloWorld{Msg: "hello world"}
 	resp, err := json.Marshal(msg)
 	if err != nil {
 		return Response{StatusCode: 500}, err
