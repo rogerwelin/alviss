@@ -18,7 +18,7 @@ $ pip install --user awscli
 $ pip install --user aws-sam-cli
 ` + "```" + `
 
-### Install Dependencies (if any)
+### Build all the Lambda functions
 ` + "```" + `bash
 $ sam build --template-file apigw.yml
 ` + "```" + `
