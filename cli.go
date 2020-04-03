@@ -34,10 +34,10 @@ func (e EnumValue) String() string {
 
 func validateRun(c *cli.Context) error {
 
-	apiTmpl := &TmplData{
-		ApiProjectName:     c.String("project-name"),
-		ApiProtocol:        c.String("api-type"),
-		ApiEndpoints:       c.String("api-endpoint"),
+	apiTmpl := &tmplData{
+		APIProjectName:     c.String("project-name"),
+		APIProtocol:        c.String("api-type"),
+		APIEndpoints:       c.String("api-endpoint"),
 		LambdaFunctionName: "helloworld",
 		Language:           c.String("language"),
 	}
@@ -94,7 +94,7 @@ func runCLI(args []string) {
 					Name:  "l, language",
 					Usage: "which language for lambda to be used (go, java, node, python, ruby)",
 					Value: &EnumValue{
-						Enum:    []string{"go", "java", "node", "python", "ruby"},
+						Enum:    []string{"go", "node", "python", "ruby"},
 						Default: "node",
 					},
 				},

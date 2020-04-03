@@ -13,15 +13,15 @@ var (
 	defaultAppPath = "/src/helloworld/app"
 )
 
-type TmplData struct {
-	ApiProtocol        string
-	ApiEndpoints       string
+type tmplData struct {
+	APIProtocol        string
+	APIEndpoints       string
 	LambdaFunctionName string
-	ApiProjectName     string
+	APIProjectName     string
 	Language           string
 }
 
-type LanguageMapper struct {
+type languageMapper struct {
 	AppFile     string
 	DepsFile    string
 	TmplAppVar  string
@@ -30,12 +30,12 @@ type LanguageMapper struct {
 	DepsPath    string
 }
 
-func initMap(projectName string) map[string]LanguageMapper {
+func initMap(projectName string) map[string]languageMapper {
 
 	appPath := projectName + defaultAppPath
 
-	var languages = map[string]LanguageMapper{
-		"node": LanguageMapper{
+	var languages = map[string]languageMapper{
+		"node": languageMapper{
 			AppFile:     "index.js",
 			DepsFile:    "package.json",
 			TmplAppVar:  nodeFunction,
@@ -43,15 +43,7 @@ func initMap(projectName string) map[string]LanguageMapper {
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
-		"java": LanguageMapper{
-			AppFile:     "App.java",
-			DepsFile:    "pom.xml",
-			TmplAppVar:  "",
-			TmplDepsVar: "",
-			AppPath:     appPath + "/com/api",
-			DepsPath:    appPath,
-		},
-		"python": LanguageMapper{
+		"python": languageMapper{
 			AppFile:     "app.py",
 			DepsFile:    "requirements.txt",
 			TmplAppVar:  pythonFunction,
@@ -59,7 +51,7 @@ func initMap(projectName string) map[string]LanguageMapper {
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
-		"ruby": LanguageMapper{
+		"ruby": languageMapper{
 			AppFile:     "app.rb",
 			DepsFile:    "Gemfile",
 			TmplAppVar:  rubyFunction,
@@ -67,7 +59,7 @@ func initMap(projectName string) map[string]LanguageMapper {
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
-		"go": LanguageMapper{
+		"go": languageMapper{
 			AppFile:     "main.go",
 			DepsFile:    "go.mod",
 			TmplAppVar:  goFunction,
@@ -96,9 +88,9 @@ func contains(slice []string, contains string) bool {
 	return false
 }
 
-func createFileFromStruct(languageSpec LanguageMapper) error {
+func createFileFromStruct(languageSpec languageMapper) error {
 	// not pretty, fix later
-	apa := &TmplData{}
+	apa := &tmplData{}
 
 	err := createDir(languageSpec.AppPath)
 	if err != nil {
@@ -115,7 +107,7 @@ func createFileFromStruct(languageSpec LanguageMapper) error {
 	return nil
 }
 
-func (tmpl *TmplData) createFileFromTemplate(tmplVar string, path string, outName string) error {
+func (tmpl *tmplData) createFileFromTemplate(tmplVar string, path string, outName string) error {
 	t := template.Must(template.New("").Parse(tmplVar))
 	var file *os.File
 	var err error
@@ -132,20 +124,20 @@ func (tmpl *TmplData) createFileFromTemplate(tmplVar string, path string, outNam
 	return nil
 }
 
-func (tmpl *TmplData) bootstrapAPI() error {
+func (tmpl *tmplData) bootstrapAPI() error {
 	col := color.New(color.FgCyan).Add(color.Underline)
 	mg := color.New(color.FgGreen)
 	fmt.Printf("\n\U0001f3c1  ")
-	col.Printf("Bootstrapping API GW project: %s with Lambda\n\n", tmpl.ApiProjectName)
+	col.Printf("Bootstrapping API GW project: %s with Lambda\n\n", tmpl.APIProjectName)
 	time.Sleep(350 * time.Millisecond)
 
 	// create top dir
-	createDir(tmpl.ApiProjectName)
+	createDir(tmpl.APIProjectName)
 
 	// create readme
 	mg.Printf("\u2705  Writing out README\n")
 	time.Sleep(350 * time.Millisecond)
-	err := tmpl.createFileFromTemplate(reamdeFile, tmpl.ApiProjectName, "README.md")
+	err := tmpl.createFileFromTemplate(reamdeFile, tmpl.APIProjectName, "README.md")
 	if err != nil {
 		panic(err)
 	}
@@ -153,7 +145,7 @@ func (tmpl *TmplData) bootstrapAPI() error {
 	// create apigw sam/cf
 	mg.Printf("\u2705  Writing out CF/SAM config\n")
 	time.Sleep(350 * time.Millisecond)
-	err = tmpl.createFileFromTemplate(apiGWConf, tmpl.ApiProjectName, "apigw.yml")
+	err = tmpl.createFileFromTemplate(apiGWConf, tmpl.APIProjectName, "apigw.yml")
 	if err != nil {
 		panic(err)
 	}
@@ -161,21 +153,32 @@ func (tmpl *TmplData) bootstrapAPI() error {
 	// create swagger file
 	mg.Printf("\u2705  Writing out Swagger config\n")
 	time.Sleep(350 * time.Millisecond)
-	err = tmpl.createFileFromTemplate(swagger, tmpl.ApiProjectName, "swagger-api.yml")
+	err = tmpl.createFileFromTemplate(swagger, tmpl.APIProjectName, "swagger-api.yml")
 	if err != nil {
 		return err
 	}
 
-	languageMap := initMap(tmpl.ApiProjectName)
+	languageMap := initMap(tmpl.APIProjectName)
 
-	mg.Printf("\u2705  Writing out %s lambda to: %s\n\n", tmpl.Language, tmpl.ApiProjectName+defaultAppPath)
+	mg.Printf("\u2705  Writing out %s lambda to: %s\n\n", tmpl.Language, tmpl.APIProjectName+defaultAppPath)
 	err = createFileFromStruct(languageMap[tmpl.Language])
 	if err != nil {
 		return err
 	}
 
 	green := color.New(color.FgGreen).SprintFunc()
-	fmt.Printf("Success! Created API GW project at %s\nInside that directory, you can run several commands:\n\n\t%s\n\t\tcreates a zip of your code and dependencies and uploads it to S3\n\t%s\n\t\tdeploys the specified CloudFormation/SAM template by creating and then executing a change set\n\nHowever I recommend taking a look at the README file first\n\n", green(tmpl.ApiProjectName+"/"), green("sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket Your-S3-bucket"), green("aws cloudformation deploy --template-file ./out.yaml --stack-name my-api-stack --capabilities CAPABILITY_IAM"))
+	consoleStdOut := "Success! Created API GW project at %s\nInside that directory," +
+		"you can run several commands:\n\n\t%s\n\t\t" +
+		"creates a zip of your code and dependencies " +
+		"and uploads it to S3\n\t%s\n\t\t" +
+		"deploys the specified CloudFormation/SAM template by creating and then " +
+		"executing a change set\n\n" +
+		"However I recommend taking a look at the README file first\n\n"
+
+	//fmt.Printf("Success! Created API GW project at %s\nInside that directory, you can run several commands:\n\n\t%s\n\t\tcreates a zip of your code and dependencies and uploads it to S3\n\t%s\n\t\tdeploys the specified CloudFormation/SAM template by creating and then executing a change set\n\nHowever I recommend taking a look at the README file first\n\n", green(tmpl.APIProjectName+"/"), green("sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket Your-S3-bucket"), green("aws cloudformation deploy --template-file ./out.yaml --stack-name my-api-stack --capabilities CAPABILITY_IAM"))
+	fmt.Printf(consoleStdOut, green(tmpl.APIProjectName+"/"),
+		green("sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket Your-S3-bucket"),
+		green("aws cloudformation deploy --template-file ./out.yaml --stack-name my-api-stack --capabilities CAPABILITY_IAM"))
 
 	return nil
 }

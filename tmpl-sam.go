@@ -5,7 +5,7 @@ const apiGWConf = `
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
-{{ if and (eq .ApiEndpoints "private") }}
+{{ if and (eq .APIEndpoints "private") }}
 Parameters:
   VPCId:
     Description: ID of the VPC ID
@@ -33,7 +33,7 @@ Conditions:
 
 Resources:
 
-{{ if and (eq .ApiEndpoints "private") }}
+{{ if and (eq .APIEndpoints "private") }}
   ########################
   # Infra stuff
   ########################
@@ -47,18 +47,6 @@ Resources:
       SecurityGroupIngress:
         - IpProtocol: tcp
           CidrIp: 172.31.190.0/24
-          FromPort: 0
-          ToPort: 65535
-        - IpProtocol: tcp
-          CidrIp: 172.31.178.0/23
-          FromPort: 0
-          ToPort: 65535
-        - IpProtocol: tcp
-          CidrIp: 10.168.58.0/24
-          FromPort: 0
-          ToPort: 65535
-        - IpProtocol: tcp
-          CidrIp: 172.31.176.0/23
           FromPort: 0
           ToPort: 65535
 
@@ -81,7 +69,7 @@ Resources:
     Properties:
       StageName: !Ref Environment
       TracingEnabled: true # Enable X-Ray for distributed tracing to help debugging
-      {{ if and (eq .ApiEndpoints "private")}}EndpointConfiguration: PRIVATE{{ end }}{{ if and (eq .ApiEndpoints "regional")}}EndpointConfiguration: REGIONAL{{ end }}{{ if and (eq .ApiEndpoints "edge")}}EndpointConfiguration: EDGE{{ end }}
+      {{ if and (eq .APIEndpoints "private")}}EndpointConfiguration: PRIVATE{{ end }}{{ if and (eq .APIEndpoints "regional")}}EndpointConfiguration: REGIONAL{{ end }}{{ if and (eq .APIEndpoints "edge")}}EndpointConfiguration: EDGE{{ end }}
       # Use DefinitionBody for swagger file so that we can use CloudFormation functions within the swagger file
       DefinitionBody:
         'Fn::Transform':
@@ -162,6 +150,6 @@ Resources:
 
 Outputs:
   ApiURL:
-    Description: {{ .ApiProjectName }}
+    Description: {{ .APIProjectName }}
     Value: !Sub 'https://${AWSApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/'
 `

@@ -18,7 +18,12 @@ $ pip install --user awscli
 $ pip install --user aws-sam-cli
 ` + "```" + `
 
-### Build the Project
+### Install Dependencies (if any)
+` + "```" + `bash
+$ sam build --template-file apigw.yml
+` + "```" + `
+
+### Package the Project
 ` + "```" + `bash
 $ sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket {Your-S3-bucket}
 ` + "```" + `

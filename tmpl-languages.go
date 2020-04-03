@@ -3,22 +3,8 @@ package main
 // node.js
 const nodeFunction = `
 'use strict'
-const  winston = require('winston')
-
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss'
-    }),
-  ),
-});
 
 exports.handler = function(event, context) {
-  logger.log({
-    level: 'info',
-    message: event,
-  });
 
   let msg = {
     msg: 'hello world'
@@ -29,7 +15,7 @@ exports.handler = function(event, context) {
 
 const packageJson = `
 {
-  "name": "hello",
+  "name": "hello world",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -40,7 +26,6 @@ const packageJson = `
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "winston": "^3.2.1"
   },
   "devDependencies": {
     "lambda-local": "^1.6.3"

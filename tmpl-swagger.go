@@ -3,7 +3,7 @@ package main
 const swagger = `
 ---
 openapi: "3.0.1"
-{{ if and (eq .ApiEndpoints "private") }}
+{{ if and (eq .APIEndpoints "private") }}
 x-amazon-apigateway-policy:
   Version: '2012-10-17'
   Statement:
@@ -20,7 +20,7 @@ x-amazon-apigateway-policy:
 {{ end }}
 
 info:
-  title: {{ .ApiProjectName }}
+  title: {{ .APIProjectName }}
   description: your awesome description here
   version: "v1.0"
 
