@@ -29,3 +29,10 @@ $ ./alviss new-api --project-name my-api-project --api-endpoint regional --langu
 ```
 
 Then just follow the instructions on the screen. It's that simple!
+
+
+Compliments
+--------
+Special thanks goes to [Axfood It AB](https://www.axfood.se/) for letting me opensource this
+
+
