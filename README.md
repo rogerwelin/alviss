@@ -22,7 +22,22 @@ Alviss is built in Go; meaning no runtime or dependencies to install, just grab 
 Usage
 --------
 
-Example below shows how to generate a new serverless public api using node.js as target language for the Lambda function(s):
+```bash
+20:55 $ ./alviss new-api
+NAME:
+   alviss new-api - Generates a new api project
+
+USAGE:
+   alviss new-api [command options] [arguments...]
+
+OPTIONS:
+   -p value, --project-name value  name of your API project
+   -t value, --api-type value      api type (only rest supported for now) (default: rest)
+   -e value, --api-endpoint value  which endpoint type (either regional, edge or private) (default: regional)
+   -l value, --language value      which language for lambda to be used (go, node, python, ruby) (default: node)
+```
+
+And example below shows how to generate a new serverless public api using node.js as target language for the Lambda function(s):
 
 ```bash
 $ ./alviss new-api --project-name my-api-project --api-endpoint regional --language node

@@ -134,16 +134,16 @@ Resources:
     Properties:
       CodeUri: src/{{ .LambdaFunctionName }}/app/
       {{ if and (eq .Language "python")}}Handler: app.handler
-      Runtime: python3.7{{ end }}{{ if and (eq .Language "ruby")}}Handler: app.handler
-      Runtime: ruby2.5{{ end }}{{ if and (eq .Language "node")}}Handler: index.handler
-      Runtime: nodejs10.x{{ end }}{{ if and (eq .Language "go")}}Handler: helloworld
+      Runtime: python3.8{{ end }}{{ if and (eq .Language "ruby")}}Handler: app.handler
+      Runtime: ruby2.7{{ end }}{{ if and (eq .Language "node")}}Handler: index.handler
+      Runtime: nodejs12.x{{ end }}{{ if and (eq .Language "go")}}Handler: helloworld
       Runtime: go1.x{{ end }}{{ if and (eq .Language "java")}}Handler: com.api.HelloWorld
       Runtime: java8{{ end }}
       MemorySize: 512
       Timeout: 5
       Tracing: Active
       Policies:
-        - AWSLambdaExecute
+{{ if and (eq .APIEndpoints "private") }}        - AWSLambdaVPCAccessExecutionRole{{ else }}        - AWSLambdaExecute{{ end }}
       Events:
         AnyApi:
           Type: Api
@@ -151,7 +151,11 @@ Resources:
             RestApiId: !Ref AWSApi
             Path: '/{{ .LambdaFunctionName }}'
             Method: GET
-
+{{ if and (eq .APIEndpoints "private") }}      VpcConfig:
+        SecurityGroupIds:
+	  - !GetAtt LambdaSecurityGroup.GroupId
+	SubnetIds: !Ref SubnetIDs
+{{ end }}
 
 Outputs:
   ApiURL:
