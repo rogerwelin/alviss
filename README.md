@@ -1,3 +1,4 @@
+<p align="center"><a href="https://github.com/rogerwelin/alviss"><img src="logo.png" alt="alviss"></a></p>
 <p align="center">
   <a href="https://goreportcard.com/badge/github.com/rogerwelin/alviss"><img src="https://goreportcard.com/badge/github.com/rogerwelin/alviss" alt="Go Report Card"></a>
   <a href="https://github.com/rogerwelin/alviss/blob/master/LICENSE"><img src="https://img.shields.io/github/license/rogerwelin/alviss" alt="License"></a>
