@@ -6,7 +6,7 @@
 </p>
 
 
-**Alviss** is a scaffolding project that let's you provision and deploy production ready API:s in seconds on AWS using API Gateway and Lambda
+**Alviss** is a scaffolding project that let's you provision and deploy production ready serverless API:s in seconds on AWS using API Gateway and Lambda
 
 
 Rationale
