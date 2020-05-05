@@ -11,7 +11,7 @@
 
 Rationale
 --------
-Configuring API Gateway and Lambda using standard IaC tools like Terraform and Cloudformation is a very finicky and time consuming experience. Even with tools that are designed for serverless applications like *AWS SAM* and *serverless framework* can be hard and time consuming. Alviss is a scaffolder that takes care of the boilerplate using best practices and leaves you to tweak the settings. Use [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) to finally deploy the project.
+Configuring API Gateway and Lambda using standard IaC tools like Terraform and Cloudformation is a very finicky, verbose and time consuming experience. Even with tools that are designed for serverless applications like *AWS SAM* and *serverless framework* can be hard and time consuming. Alviss is a scaffolder that takes care of generating the boilerplate using best practices and leaves you to tweak or modify the settings as you like. Use [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) to finally deploy the project.
 
 
 Installation
@@ -22,10 +22,10 @@ Alviss is built in Go; meaning no runtime or dependencies to install, just grab 
 Usage
 --------
 
-Example below shows how to generate a new public api using node.js as target language for the Lambda function(s):
+Example below shows how to generate a new serverless public api using node.js as target language for the Lambda function(s):
 
 ```bash
-$ ./alviss new-api -p my-project -e regional -l node
+$ ./alviss new-api --project-name my-api-project --api-endpoint regional --language node
 ```
 
 Then just follow the instructions on the screen. It's that simple!
