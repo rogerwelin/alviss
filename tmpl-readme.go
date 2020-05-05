@@ -8,9 +8,10 @@ To create the API GW project you will need an AWS account and generate API keys 
 
 ### Install Dependencies
 You need the following dependencies to be able to build and deploy the api project:
-* A working Pyhton installation
+* A working Python installation
 * awscli
 * sam (serverless application model)
+* docker (optional, only if you plan to run the api locally)
 
 **Install awscli and SAM**  
 ` + "```" + `bash

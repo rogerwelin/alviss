@@ -46,6 +46,12 @@ $ ./alviss new-api --project-name my-api-project --api-endpoint regional --langu
 Then just follow the instructions on the screen. It's that simple!
 
 
+Demo
+--------
+
+<img src="https://i.imgur.com/Zy8PG73.gif" />
+
+
 Compliments
 --------
 Special thanks goes to [Axfood IT AB](https://www.axfood.se/) for letting me opensource this
