@@ -23,7 +23,7 @@ Usage
 --------
 
 ```bash
-20:55 $ ./alviss new-api
+$ ./alviss new-api
 NAME:
    alviss new-api - Generates a new api project
 
@@ -48,6 +48,6 @@ Then just follow the instructions on the screen. It's that simple!
 
 Compliments
 --------
-Special thanks goes to [Axfood It AB](https://www.axfood.se/) for letting me opensource this
+Special thanks goes to [Axfood IT AB](https://www.axfood.se/) for letting me opensource this
 
 

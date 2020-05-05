@@ -8,13 +8,13 @@ import (
 	"github.com/urfave/cli"
 )
 
-type EnumValue struct {
+type enumValue struct {
 	Enum     []string
 	Default  string
 	selected string
 }
 
-func (e *EnumValue) Set(value string) error {
+func (e *enumValue) Set(value string) error {
 	for _, enum := range e.Enum {
 		if enum == value {
 			e.selected = value
@@ -25,7 +25,7 @@ func (e *EnumValue) Set(value string) error {
 	return fmt.Errorf("allowed values are %s", strings.Join(e.Enum, ", "))
 }
 
-func (e EnumValue) String() string {
+func (e enumValue) String() string {
 	if e.selected == "" {
 		return e.Default
 	}
@@ -77,7 +77,7 @@ func runCLI(args []string) {
 				cli.GenericFlag{
 					Name:  "t, api-type",
 					Usage: "api type (only rest supported for now)",
-					Value: &EnumValue{
+					Value: &enumValue{
 						Enum:    []string{"rest"},
 						Default: "rest",
 					},
@@ -85,7 +85,7 @@ func runCLI(args []string) {
 				cli.GenericFlag{
 					Name:  "e, api-endpoint",
 					Usage: "which endpoint type (either regional, edge or private)",
-					Value: &EnumValue{
+					Value: &enumValue{
 						Enum:    []string{"regional", "edge", "private"},
 						Default: "regional",
 					},
@@ -93,7 +93,7 @@ func runCLI(args []string) {
 				cli.GenericFlag{
 					Name:  "l, language",
 					Usage: "which language for lambda to be used (go, node, python, ruby)",
-					Value: &EnumValue{
+					Value: &enumValue{
 						Enum:    []string{"go", "node", "python", "ruby"},
 						Default: "node",
 					},
