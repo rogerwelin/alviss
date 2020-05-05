@@ -23,17 +23,15 @@ $ pip install --user aws-sam-cli
 $ sam build --template-file apigw.yml
 ` + "```" + `
 
-### Package the Project
+### Package & Deploy the Project
 ` + "```" + `bash
-$ sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket {Your-S3-bucket}
+$ sam deploy --guided
 ` + "```" + `
 
-### Deploy the API
-` + "```" + `bash
-$ aws cloudformation deploy --template-file ./out.yaml --stack-name your-api-project --capabilities CAPABILITY_IAM 
-` + "```" + `
+The --guided flag will set up all needed IAM roles and a S3 bucket and finally will set upp all needed AWS resources and deploy the code.
 
-Go to the AWS console > Cloudformation. Make sure the Cloudformations stack finishes. Take a look at the output to get the URL of your newly created API project. Either curl the address at the /hello endpoint or run the endpoint directly in the API Gateway console.
-
-
+Check the Outputs from the command line and grab the URL. Now do a curl against URL/helloworld
+{{ if and (eq .APIEndpoints "private") }}
+However since this is a private api, you need to do the curl from within your VPC
+{{ end }}
 `

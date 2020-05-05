@@ -7,15 +7,16 @@ const nodeFunction = `
 exports.handler = function(event, context) {
 
   let msg = {
-    msg: 'hello world'
+    statusCode: 200,
+    body: 'hello world'
   }
-  context.succeed(JSON.stringify(msg));
+  context.succeed(msg);
 };
 `
 
 const packageJson = `
 {
-  "name": "hello world",
+  "name": "helloworld",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

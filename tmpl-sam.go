@@ -10,6 +10,11 @@ Parameters:
   VPCId:
     Description: ID of the VPC ID
     Type: AWS::EC2::VPC::Id
+  VPCCidr:
+    Description: Valid CIDR of the VPC
+    Type: String
+    AllowedPattern: ^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x
   SubnetIDs:
     Description: A list/array of Subnet IDs
     Type: List<AWS::EC2::Subnet::Id>
@@ -46,7 +51,7 @@ Resources:
       VpcId: !Ref VPCId
       SecurityGroupIngress:
         - IpProtocol: tcp
-          CidrIp: 172.31.190.0/24
+          CidrIp: !Ref VPCCidr
           FromPort: 0
           ToPort: 65535
 
@@ -130,7 +135,7 @@ Resources:
       CodeUri: src/{{ .LambdaFunctionName }}/app/
       {{ if and (eq .Language "python")}}Handler: app.handler
       Runtime: python3.7{{ end }}{{ if and (eq .Language "ruby")}}Handler: app.handler
-      Runtime: ruby2.5{{ end }}{{ if and (eq .Language "node")}}Handler: index.js
+      Runtime: ruby2.5{{ end }}{{ if and (eq .Language "node")}}Handler: index.handler
       Runtime: nodejs10.x{{ end }}{{ if and (eq .Language "go")}}Handler: helloworld
       Runtime: go1.x{{ end }}{{ if and (eq .Language "java")}}Handler: com.api.HelloWorld
       Runtime: java8{{ end }}
