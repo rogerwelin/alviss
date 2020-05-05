@@ -52,9 +52,9 @@ func validateRun(c *cli.Context) error {
 
 func runCLI(args []string) {
 	app := cli.NewApp()
-	app.Name = "api-scaffolder"
-	app.HelpName = "api-scaffolder"
-	app.UsageText = "api-scaffolder [command] [command options] [arguments...]"
+	app.Name = "alviss"
+	app.HelpName = "alviss"
+	app.UsageText = "alviss [command] [command options] [arguments...]"
 	app.EnableBashCompletion = true
 	app.Usage = ""
 	app.Version = "0.1.1"
@@ -76,9 +76,9 @@ func runCLI(args []string) {
 				},
 				cli.GenericFlag{
 					Name:  "t, api-type",
-					Usage: "api type (either rest or websocket)",
+					Usage: "api type (only rest supported for now)",
 					Value: &EnumValue{
-						Enum:    []string{"rest", "websocket"},
+						Enum:    []string{"rest"},
 						Default: "rest",
 					},
 				},
@@ -92,7 +92,7 @@ func runCLI(args []string) {
 				},
 				cli.GenericFlag{
 					Name:  "l, language",
-					Usage: "which language for lambda to be used (go, java, node, python, ruby)",
+					Usage: "which language for lambda to be used (go, node, python, ruby)",
 					Value: &EnumValue{
 						Enum:    []string{"go", "node", "python", "ruby"},
 						Default: "node",

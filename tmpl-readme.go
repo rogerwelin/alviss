@@ -4,7 +4,7 @@ const reamdeFile = `
 ## API GW Project
 
 ### Set up the Environment
-To create the API GW project you will need an AWS account and generate API keys for your IAM user. Run *aws configure* after installing the awscli. Then you you will need to create a new S3 bucket that will be used for storing deployment files.
+To create the API GW project you will need an AWS account and generate API keys for your IAM user. Run *aws configure* after installing the awscli.
 
 ### Install Dependencies
 You need the following dependencies to be able to build and deploy the api project:

@@ -170,17 +170,14 @@ func (tmpl *tmplData) bootstrapAPI() error {
 	consoleStdOut := "Success! Created API GW project at %s\nInside that directory," +
 		"you can run several commands:\n\n\t%s\n\t\t" +
 		"installs dependencies for all the Lambda source code\n\t%s\n\t\t" +
-		"creates a zip of your code and dependencies " +
-		"and uploads it to S3\n\t%s\n\t\t" +
-		"deploys the specified CloudFormation/SAM template by creating and then " +
-		"executing a change set\n\n" +
+		"creates all needed AWS resources and deploys the code" +
+		"\n\n" +
 		"However I recommend taking a look at the README file first\n\n"
 
 	//fmt.Printf("Success! Created API GW project at %s\nInside that directory, you can run several commands:\n\n\t%s\n\t\tcreates a zip of your code and dependencies and uploads it to S3\n\t%s\n\t\tdeploys the specified CloudFormation/SAM template by creating and then executing a change set\n\nHowever I recommend taking a look at the README file first\n\n", green(tmpl.APIProjectName+"/"), green("sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket Your-S3-bucket"), green("aws cloudformation deploy --template-file ./out.yaml --stack-name my-api-stack --capabilities CAPABILITY_IAM"))
 	fmt.Printf(consoleStdOut, green(tmpl.APIProjectName+"/"),
 		green("sam build --template-file apigw.yml"),
-		green("sam package --template-file apigw.yml  --output-template-file out.yaml --s3-bucket Your-S3-bucket"),
-		green("aws cloudformation deploy --template-file ./out.yaml --stack-name my-api-stack --capabilities CAPABILITY_IAM"))
+		green("sam deploy --guided"))
 
 	return nil
 }
