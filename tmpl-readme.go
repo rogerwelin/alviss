@@ -23,7 +23,10 @@ $ pip install --user aws-sam-cli
 ` + "```" + `bash
 $ sam build --template-file apigw.yml
 ` + "```" + `
-
+{{ if and (eq .APIEndpoints "private") }}
+### Private API
+Since this is a private API it will be deployed inside of your VPC. You will need to supply parameter values to SAM, example; vpc-id, your private subnets to use and the vpc cidr. The deployment will also create a VPC Endpoint to bridge your VPC to the API Gateway service, normally you want to keep this as a separate deploymnent (since it will be deleted if you delete this stack), but for simplicity sake it's included here. If you already have a VPC Endpoint for API Gateway you can just delete it from the apigw.yml template
+{{ end }}
 ### Package & Deploy the Project
 ` + "```" + `bash
 $ sam deploy --guided

@@ -8,6 +8,8 @@ import (
 	"github.com/urfave/cli"
 )
 
+var version = "dev"
+
 type enumValue struct {
 	Enum     []string
 	Default  string

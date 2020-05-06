@@ -134,7 +134,7 @@ Resources:
     Properties:
       CodeUri: src/{{ .LambdaFunctionName }}/app/
       {{ if and (eq .Language "python")}}Handler: app.handler
-      Runtime: python3.8{{ end }}{{ if and (eq .Language "ruby")}}Handler: app.handler
+      Runtime: python3.7{{ end }}{{ if and (eq .Language "ruby")}}Handler: app.handler
       Runtime: ruby2.7{{ end }}{{ if and (eq .Language "node")}}Handler: index.handler
       Runtime: nodejs12.x{{ end }}{{ if and (eq .Language "go")}}Handler: helloworld
       Runtime: go1.x{{ end }}{{ if and (eq .Language "java")}}Handler: com.api.HelloWorld
@@ -153,8 +153,8 @@ Resources:
             Method: GET
 {{ if and (eq .APIEndpoints "private") }}      VpcConfig:
         SecurityGroupIds:
-	  - !GetAtt LambdaSecurityGroup.GroupId
-	SubnetIds: !Ref SubnetIDs
+          - !GetAtt LambdaSecurityGroup.GroupId
+        SubnetIds: !Ref SubnetIDs
 {{ end }}
 
 Outputs:

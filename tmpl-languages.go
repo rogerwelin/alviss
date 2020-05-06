@@ -56,7 +56,11 @@ const rubyFunction = `
 require 'json'
 
 def handler(event:, context:)
-    { statusCode: 200, body: JSON.generate('hello world') }
+  msg = {:msg => 'hello world'}
+  return {
+    :statusCode => 200,
+    :body => msg.to_json
+  }
 end
 `
 const gemFile = `
