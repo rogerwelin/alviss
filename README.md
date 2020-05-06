@@ -14,6 +14,8 @@ Rationale
 --------
 Configuring API Gateway and Lambda using standard IaC tools like Terraform and Cloudformation is a very finicky, verbose and time consuming experience. Even with tools that are designed for serverless applications like *AWS SAM* and *serverless framework* can be hard and time consuming. Alviss is a scaffolder that takes care of generating the boilerplate using best practices and leaves you to tweak or modify the settings as you like. Use [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) to finally deploy the project.
 
+Support for *serverless framework* is upcoming
+
 
 Installation
 --------
