@@ -35,15 +35,15 @@ func initMap(projectName string) map[string]languageMapper {
 	appPath := projectName + defaultAppPath
 
 	var languages = map[string]languageMapper{
-		"node": languageMapper{
+		"node": {
 			AppFile:     "index.js",
 			DepsFile:    "package.json",
 			TmplAppVar:  nodeFunction,
-			TmplDepsVar: packageJson,
+			TmplDepsVar: packageJSON,
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
-		"python": languageMapper{
+		"python": {
 			AppFile:     "app.py",
 			DepsFile:    "requirements.txt",
 			TmplAppVar:  pythonFunction,
@@ -51,7 +51,7 @@ func initMap(projectName string) map[string]languageMapper {
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
-		"ruby": languageMapper{
+		"ruby": {
 			AppFile:     "app.rb",
 			DepsFile:    "Gemfile",
 			TmplAppVar:  rubyFunction,
@@ -59,7 +59,7 @@ func initMap(projectName string) map[string]languageMapper {
 			AppPath:     appPath,
 			DepsPath:    appPath,
 		},
-		"go": languageMapper{
+		"go": {
 			AppFile:     "main.go",
 			DepsFile:    "go.mod",
 			TmplAppVar:  goFunction,

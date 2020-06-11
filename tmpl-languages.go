@@ -14,7 +14,7 @@ exports.handler = function(event, context) {
 };
 `
 
-const packageJson = `
+const packageJSON = `
 {
   "name": "helloworld",
   "version": "1.0.0",

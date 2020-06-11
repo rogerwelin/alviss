@@ -61,7 +61,7 @@ func runCLI(args []string) {
 	app.Usage = ""
 	app.Version = version
 	app.Authors = []cli.Author{
-		cli.Author{
+		{
 			Name: "Roger Welin",
 		},
 	}
